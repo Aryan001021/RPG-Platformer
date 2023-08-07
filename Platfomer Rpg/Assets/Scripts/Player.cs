@@ -8,6 +8,12 @@ public class Player : MonoBehaviour
     [Header("Move Info")]
     public int speed = 10;
     public float jumpForce = 5;
+    [Header("DashDir")]
+    [SerializeField] float dashCoolDown;
+    private float dashCoolTimer;
+    public float dashSpeed;
+    public float dashDuration;
+    public float dashDir { get;private set; }
     [Header("Ground Check")]
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundCheckDistance;
@@ -26,6 +32,7 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     
     #endregion
     void Awake()
@@ -36,6 +43,7 @@ public class Player : MonoBehaviour
         moveState = new PlayerMoveState(this, stateMachine, "Move");
         airState  = new PlayerAirState(this, stateMachine, "Jump");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
+        dashState = new PlayerDashState(this, stateMachine, "Dash");
     }
     private void Start()
     {
@@ -48,12 +56,27 @@ public class Player : MonoBehaviour
     void Update()
     {
         stateMachine.currentState.Update();
-        
+        CheckForDashInput();
     }
     public void SetVelocity(float _xVelocity,float _yVelocity)
     {
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
+    }
+    private void CheckForDashInput()
+    {
+        dashCoolTimer-= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift)&&dashCoolTimer<0)
+        {
+            dashCoolTimer = dashCoolDown;
+            dashDir = Input.GetAxis("Horizontal");
+            if (dashDir == 0)
+            {
+                dashDir = facingDirection;
+            }
+            stateMachine.ChangeState(dashState);
+            
+        }
     }
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     private void OnDrawGizmos()
