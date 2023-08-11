@@ -8,8 +8,10 @@ public class PlayerState
     protected Player player;
     protected Rigidbody2D rb;
     protected float xInput;
+    protected float yInput;
     protected string animBoolName;
     protected float stateTimer;
+    protected bool triggerCalled ;
     public PlayerState(Player _player, PlayerStateMachine _playerStateMachine,string _animBoolName)
     {
         this.stateMachine = _playerStateMachine;
@@ -20,6 +22,7 @@ public class PlayerState
     {
         player.anim.SetBool(animBoolName, true);
         rb=player.rb;
+        triggerCalled = false;
     }
     public virtual void Exit()
     {
@@ -28,7 +31,12 @@ public class PlayerState
     public virtual void Update()
     {
         stateTimer-=Time.deltaTime;
-        xInput = Input.GetAxis("Horizontal");
+        xInput = Input.GetAxisRaw("Horizontal");
+        yInput = Input.GetAxisRaw("Vertical");
         player.anim.SetFloat("YVelocity", rb.velocity.y);
+    }
+    public virtual void AnimationFinishTrigger()
+    {
+        triggerCalled = true;
     }
 }

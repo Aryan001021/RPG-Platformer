@@ -29,5 +29,9 @@ public class PlayerGroundState : PlayerState
         {
             stateMachine.ChangeState(player.jumpState);
         }
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            stateMachine.ChangeState(player.primaryAttack);
+        }
     }
 }
