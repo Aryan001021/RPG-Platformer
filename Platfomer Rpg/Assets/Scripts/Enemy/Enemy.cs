@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    [SerializeField]protected LayerMask whatIsPlayer;
+
     [Header("MoveInfo")]
     public float moveSpeed;
     public float idleTime;
+    public float battleTime;
+    [Header("AtackInfo")]
+    public float attackDistance;
+    public float attackCooldown;
+    [HideInInspector]public float lastTimeAttacked;
+
     public EnemyStateMachine stateMachine { get; private set; }
     protected override void Awake()
     {
@@ -18,4 +26,12 @@ public class Enemy : Entity
         base.Update();
         stateMachine.currentState.Update();
     }
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, 50, whatIsPlayer);
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x+attackDistance*facingDirection,transform.position.y));
+    }
+    public virtual void AnimationFinishedTrigger()=>stateMachine.currentState.AnimationFinishTrigger();
 }
