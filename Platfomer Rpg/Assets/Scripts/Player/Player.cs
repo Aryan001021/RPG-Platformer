@@ -13,8 +13,6 @@ public class Player : Entity
     public int speed = 10;
     public float jumpForce = 5;
     [Header("DashDir")]
-    [SerializeField] float dashCoolDown;
-    private float dashCoolTimer;
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get;private set; }
@@ -66,10 +64,8 @@ public class Player : Entity
         {
             return;
         }
-        dashCoolTimer-= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.LeftShift)&&dashCoolTimer<0)
+        if (Input.GetKeyDown(KeyCode.LeftShift)&&SkillManager.instance.dashSkill.CanUseSkill())
         {
-            dashCoolTimer = dashCoolDown;
             dashDir = Input.GetAxis("Horizontal");
             if (dashDir == 0)
             {
