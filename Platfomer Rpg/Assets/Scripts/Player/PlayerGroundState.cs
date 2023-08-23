@@ -33,5 +33,9 @@ public class PlayerGroundState : PlayerState
         {
             stateMachine.ChangeState(player.primaryAttack);
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            stateMachine.ChangeState(player.counterAttackState);
+        }
     }
 }
