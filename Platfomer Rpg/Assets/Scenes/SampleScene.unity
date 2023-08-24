@@ -1579,6 +1579,7 @@ GameObject:
   - component: {fileID: 345446589}
   - component: {fileID: 345446591}
   - component: {fileID: 345446590}
+  - component: {fileID: 345446592}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -1626,6 +1627,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f005a5ff4987807459c9cd9c20ed3470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &345446592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345446588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bca2240939cbbe4f9b00bb7d9abe341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coolDown: 0
+  clone: {fileID: 2970398109691599537, guid: 26dc030e9aad1ba429012d8fc573b08b, type: 3}
+  cloneDuration: 1.5
+  canAttack: 1
 --- !u!1 &413229127
 GameObject:
   m_ObjectHideFlags: 0

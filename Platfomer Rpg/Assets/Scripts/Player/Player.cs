@@ -16,7 +16,7 @@ public class Player : Entity
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get;private set; }
-    
+    public SkillManager skill {  get; private set; }
  
  
     #region state
@@ -51,6 +51,7 @@ public class Player : Entity
     {
         base.Start();
         stateMachine.Initialize(idleState);
+        skill = SkillManager.instance;
     }
     protected override void Update()
     {
