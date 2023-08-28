@@ -1,9 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SwordType
+{
+    Regular,
+    Bounce,
+    Pierce,
+    Spin
+}
 public class SwordSkill : Skill
 {
+    public SwordType swordType=SwordType.Regular;
+    [Header("BounceInfo")]
+    [SerializeField] private int bounceAmount;
+    [SerializeField] float bounceGravity;
+    [Header("PierceInfo")]
+    [SerializeField] int pierceAmount;
+    [SerializeField] private float pierceGravity;
+    [Header("SpinInfo")]
+    [SerializeField] float hitCoolDown=.35f;
+    [SerializeField] float maxTravelDistance = 7;
+    [SerializeField] float spinDuration=2;
+    [SerializeField] float spinGravity = 1;
     [Header("Skill info")]
     [SerializeField] GameObject swordPrefab;
     [SerializeField] Vector2 launchForce;
@@ -19,7 +39,26 @@ public class SwordSkill : Skill
     {
         base.Start();
         GenerateDots();
+        SetUpGravity();
     }
+
+    private void SetUpGravity()
+    {
+        if(swordType == SwordType.Bounce)
+        {
+            swordGavity= bounceGravity;
+        }
+        else if(swordType == SwordType.Bounce)
+        {
+            swordGavity=pierceGravity;
+        }
+        else if(swordType == SwordType.Spin)
+        {
+            swordGavity=spinGravity;
+        }
+
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -39,9 +78,23 @@ public class SwordSkill : Skill
     {
         GameObject sword=Instantiate(swordPrefab,player.transform.position,transform.rotation);
         SwordSkillController swordSkillController=sword.GetComponent<SwordSkillController>();
-        swordSkillController.SetUpSword(finalDir,swordGavity);
+        if(swordType==SwordType.Bounce)
+        {
+            swordSkillController.SetUpBounce(true, bounceAmount);
+        }
+        else if (swordType == SwordType.Pierce)
+        {
+            swordSkillController.SetUpPierce(pierceAmount);
+        }
+        else if (swordType == SwordType.Spin)
+        {
+            swordSkillController.SetUpSpin(true,maxTravelDistance,spinDuration,hitCoolDown);
+        }
+        swordSkillController.SetUpSword(finalDir,swordGavity,player);
+        player.AssignNewSword(sword);
         DotsActive(false);
     }
+    #region aim region
     public Vector2 AimDirection()
     {
         Vector2 playerPos=player.transform.position;
@@ -72,4 +125,5 @@ public class SwordSkill : Skill
             AimDirection().normalized.y*launchForce.y)*_time+.5f*(Physics2D.gravity*swordGavity)*(_time*_time);//used Vector distance formulae 
         return position;
     }
+    #endregion
 }
