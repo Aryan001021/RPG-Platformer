@@ -21,7 +21,7 @@ public class PlayerCatchSwordState : PlayerState
         {
             player.Flip();
         }
-        rb.velocity=new Vector2(player.swordReturnImpact *player.facingDirection,rb.velocity.y);
+        rb.velocity=new Vector2(-player.swordReturnImpact *player.facingDirection,rb.velocity.y);
     }
 
     public override void Exit()
