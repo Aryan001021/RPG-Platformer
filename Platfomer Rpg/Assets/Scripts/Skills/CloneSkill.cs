@@ -9,9 +9,9 @@ public class CloneSkill : Skill
     [SerializeField] float cloneDuration;
     [Space]
     [SerializeField] bool canAttack;
-    public void CreateClone(Transform _transform)
+    public void CreateClone(Transform _transform,Vector3 _offset)
     {
         GameObject newClone=Instantiate(clone);
-        newClone.GetComponent<CloneSkillController>().SetupClone(_transform,cloneDuration, canAttack);
+        newClone.GetComponent<CloneSkillController>().SetupClone(_transform,cloneDuration, canAttack,_offset);
     }
 }

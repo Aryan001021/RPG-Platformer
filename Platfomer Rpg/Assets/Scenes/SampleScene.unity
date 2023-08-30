@@ -1612,6 +1612,7 @@ GameObject:
   - component: {fileID: 345446590}
   - component: {fileID: 345446592}
   - component: {fileID: 345446593}
+  - component: {fileID: 345446594}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -1707,6 +1708,26 @@ MonoBehaviour:
   spaceBetweenDots: 0.07
   dotPrefab: {fileID: 8227164349399881351, guid: a7e70c482fd7b084b8a3933a66ad5fc9, type: 3}
   dotsParent: {fileID: 40781615}
+--- !u!114 &345446594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345446588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d63e8316752634fac19be64ad77a8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coolDown: 0
+  amountOfAttacks: 5
+  cloneCoolDown: 0.35
+  blackHoleDuration: 3
+  blackHolePrefab: {fileID: 858825441028138284, guid: a9b1748abdda5ac4bb734d7919ca4dc9, type: 3}
+  maxSize: 15
+  growSpeed: 3
+  shrinkSpeed: 6
 --- !u!1 &413229127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,6 +2139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCheck: {fileID: 1909253801}
   attackCheckRadius: 0.8
+  spriteRenderer: {fileID: 0}
   groundCheck: {fileID: 1759060723}
   groundCheckDistance: 1
   wallCheck: {fileID: 338787332}
@@ -3757,6 +3779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCheck: {fileID: 1676239250}
   attackCheckRadius: 0.8
+  spriteRenderer: {fileID: 0}
   groundCheck: {fileID: 1310380176}
   groundCheckDistance: 0.15
   wallCheck: {fileID: 1989528167}

@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
     [Header("Collision Check")]
     public Transform attackCheck;
     public float attackCheckRadius;
+    public SpriteRenderer spriteRenderer;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected Transform wallCheck;
@@ -34,6 +35,7 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
+        spriteRenderer= GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         fX = GetComponent<EntityFX>();
     }
@@ -103,4 +105,15 @@ public class Entity : MonoBehaviour
         }
     }
     #endregion
+    public void  MakeTransparent(bool _transparent)
+    {
+        if (_transparent)
+        {
+            spriteRenderer.color = Color.clear;
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
+    }
 }

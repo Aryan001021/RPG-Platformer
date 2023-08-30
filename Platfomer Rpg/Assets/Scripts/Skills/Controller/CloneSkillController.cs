@@ -29,9 +29,9 @@ public class CloneSkillController : MonoBehaviour
             }
         }
     }
-    public void SetupClone(Transform _transform,float _cloneDuration,bool _canAttack)
+    public void SetupClone(Transform _transform,float _cloneDuration,bool _canAttack,Vector3 _offset)
     {
-        transform.position = _transform.position;
+        transform.position = _transform.position+_offset;
         if (_canAttack)
         {
             if (animator == null)
