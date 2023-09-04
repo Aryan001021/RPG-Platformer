@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CloneSkillController : MonoBehaviour
@@ -9,11 +6,11 @@ public class CloneSkillController : MonoBehaviour
     Animator animator;
     [SerializeField] float colorLosingSpeed;
     [SerializeField] GameObject attackCheck;
-    [SerializeField] float attackCheckRadius=.8f;
+    [SerializeField] float attackCheckRadius = .8f;
     private float cloneTimer;
     Transform closestEnemy;
     bool canDuplicateClone;
-    int facingDir=1;
+    int facingDir = 1;
     float chanceToDuplicate;
     private void Awake()
     {
@@ -22,19 +19,19 @@ public class CloneSkillController : MonoBehaviour
     }
     private void Update()
     {
-        cloneTimer-=Time.deltaTime;
-        if(cloneTimer < 0 )
+        cloneTimer -= Time.deltaTime;
+        if (cloneTimer < 0)
         {
-            spriteRenderer.color= new Color(1,1,1,spriteRenderer.color.a-Time.deltaTime*colorLosingSpeed);
+            spriteRenderer.color = new Color(1, 1, 1, spriteRenderer.color.a - Time.deltaTime * colorLosingSpeed);
             if (spriteRenderer.color.a <= 0)
             {
                 Destroy(gameObject);
             }
         }
     }
-    public void SetupClone(Transform _transform,float _cloneDuration,bool _canAttack,Vector3 _offset,Transform _closestEnemy,bool _canDuplicateClone,float _chanceToDuplicate)
+    public void SetupClone(Transform _transform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate)
     {
-        transform.position = _transform.position+_offset;
+        transform.position = _transform.position + _offset;
         if (_canAttack)
         {
             if (animator == null)
@@ -47,7 +44,7 @@ public class CloneSkillController : MonoBehaviour
             }
         }
         cloneTimer = _cloneDuration;
-        closestEnemy= _closestEnemy;
+        closestEnemy = _closestEnemy;
         chanceToDuplicate = _chanceToDuplicate;
         canDuplicateClone = _canDuplicateClone;
         FaceClosestTarget();
@@ -63,8 +60,8 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().Damage();
-                if(canDuplicateClone)
+                hit.GetComponent<Enemy>().DamageEffect();
+                if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < chanceToDuplicate)
                     {
@@ -77,7 +74,7 @@ public class CloneSkillController : MonoBehaviour
     }
     private void FaceClosestTarget()
     {
-        
+
         if (closestEnemy != null)
         {
             if (transform.position.x > closestEnemy.position.x)

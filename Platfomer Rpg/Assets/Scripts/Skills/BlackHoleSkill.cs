@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlackHoleSkill : Skill
@@ -21,9 +19,9 @@ public class BlackHoleSkill : Skill
     public override void UseSkill()
     {
         base.UseSkill();
-        GameObject newBlackHole=Instantiate(blackHolePrefab,player.transform.position,Quaternion.identity);
+        GameObject newBlackHole = Instantiate(blackHolePrefab, player.transform.position, Quaternion.identity);
         currentBlackHole = newBlackHole.GetComponent<BlackholeSkillController>();
-        currentBlackHole.SetUpBlackHole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCoolDown,blackHoleDuration);
+        currentBlackHole.SetUpBlackHole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCoolDown, blackHoleDuration);
     }
 
     protected override void Start()
@@ -39,7 +37,7 @@ public class BlackHoleSkill : Skill
     {
         if (!currentBlackHole)
         {
-            return false; 
+            return false;
         }
         if (currentBlackHole.playerCanExitState)
         {

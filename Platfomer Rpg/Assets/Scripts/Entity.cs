@@ -21,11 +21,13 @@ public class Entity : MonoBehaviour
     protected bool isKnocked;
 
     public int facingDirection { get; private set; } = 1;
+    public CapsuleCollider2D capsuleCollider { get; private set; }
     protected bool facingRight = true;
     #region Component
 
     public EntityFX fX { get; private set; }
     public Animator anim { get; private set; }
+    public CharacterStats stats { get; private set; }
     public Rigidbody2D rb { get; private set; }
     #endregion
     protected virtual void Awake()
@@ -38,12 +40,14 @@ public class Entity : MonoBehaviour
         spriteRenderer= GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         fX = GetComponent<EntityFX>();
+        stats = GetComponent<CharacterStats>(); 
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
     protected virtual void Update()
     {
 
     }
-    public virtual void Damage()
+    public virtual void DamageEffect()
     {
         Debug.Log(this.gameObject.name);
         fX.StartCoroutine("FlashFX");
@@ -115,5 +119,9 @@ public class Entity : MonoBehaviour
         {
             spriteRenderer.color = Color.white;
         }
+    }
+    public virtual void Die()
+    {
+
     }
 }

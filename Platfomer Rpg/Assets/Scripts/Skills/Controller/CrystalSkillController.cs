@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrystalSkillController : MonoBehaviour
@@ -10,7 +8,7 @@ public class CrystalSkillController : MonoBehaviour
     [Header("Explosive Crystal")]
     bool canExplode;
     private bool canGrow;
-    float growSpeed=5;
+    float growSpeed = 5;
     [Header("Moving Crystal")]
     bool canMoveToEnemy;
     float moveSpeed;
@@ -18,10 +16,10 @@ public class CrystalSkillController : MonoBehaviour
     [SerializeField] LayerMask whatIsEnemy;
     private void Awake()
     {
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
         circleCollider = GetComponent<CircleCollider2D>();
     }
-    public void SetupCrystal(float _crystalDuration,bool _canExplode,bool _canMoveToEnemy,float _moveSpeed,Transform _closestTarget)
+    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMoveToEnemy, float _moveSpeed, Transform _closestTarget)
     {
         crystalExitTimer = _crystalDuration;
         canExplode = _canExplode;
@@ -36,23 +34,23 @@ public class CrystalSkillController : MonoBehaviour
         {
             FinishCrystal();
         }
-        if(canMoveToEnemy)
+        if (canMoveToEnemy)
         {
-            transform.position=Vector2.MoveTowards(transform.position,closestTarget.position,moveSpeed*Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, closestTarget.position, moveSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, closestTarget.position) < 1)
             {
                 FinishCrystal();
-                canMoveToEnemy=false;
+                canMoveToEnemy = false;
             }
         }
-        if(canGrow)
+        if (canGrow)
         {
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3, 3), growSpeed * Time.deltaTime);
         }
     }
     public void ChooseRandomEnemy()
     {
-        float radius=SkillManager.instance.blackHoleSkill.GetBlackHoleRadius();
+        float radius = SkillManager.instance.blackHoleSkill.GetBlackHoleRadius();
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemy);
         if (colliders.Length > 0)
         {
@@ -66,7 +64,7 @@ public class CrystalSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().Damage();
+                hit.GetComponent<Enemy>().DamageEffect();
             }
         }
     }
