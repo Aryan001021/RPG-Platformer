@@ -1143,6 +1143,26 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 1, y: -3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 2, y: -3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 3, y: -3, z: 0}
     second:
       serializedVersion: 2
@@ -1467,7 +1487,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 7cbae85da288f7e4da08f62ec3d6d2ea, type: 2}
-  - m_RefCount: 21
+  - m_RefCount: 23
     m_Data: {fileID: 11400000, guid: d586c090da52caf489a5fe84e2f5283e, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 7452b90331479bb44b05875b44f966a0, type: 2}
@@ -1496,7 +1516,7 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 7f1c70acd3a44df4594d7d5a99659736, type: 3}
-  - m_RefCount: 21
+  - m_RefCount: 23
     m_Data: {fileID: 21300000, guid: 4be2c34154b4b20429143bf5a0400d64, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 90d10d4ec25a7e54f9becdea0c8dfef1, type: 3}
@@ -1523,7 +1543,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 7365dce33644f064e8c1bff7c058cf2c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 79
+  - m_RefCount: 81
     m_Data:
       e00: 1
       e01: 0
@@ -1542,7 +1562,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 79
+  - m_RefCount: 81
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -1881,7 +1901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0000011920929, y: 0, z: 0}
+  m_LocalPosition: {x: 0.00000166893, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2268,12 +2288,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f2513ba2d16ac419d4b93ab562c3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strength:
+    baseValue: 0
+    modifiers: 
+  agility:
+    baseValue: 0
+    modifiers: 
+  intelligence:
+    baseValue: 0
+    modifiers: 
+  vitality:
+    baseValue: 0
+    modifiers: 
   damage:
     baseValue: 10
     modifiers: 
-  maxHealth:
-    baseValue: 100
+  critChance:
+    baseValue: 0
     modifiers: 
+  critDamage:
+    baseValue: 0
+    modifiers: 
+  maxHealth:
+    baseValue: 1000
+    modifiers: 
+  armor:
+    baseValue: 0
+    modifiers: 
+  evasion:
+    baseValue: 0
+    modifiers: 
+  magicResistance:
+    baseValue: 0
+    modifiers: 
+  fireDamage:
+    baseValue: 0
+    modifiers: 
+  lightningDamage:
+    baseValue: 0
+    modifiers: 
+  iceDamage:
+    baseValue: 0
+    modifiers: 
+  isIgnited: 0
+  isChill: 0
+  isShocked: 0
   currentHealth: 0
 --- !u!70 &975665442
 CapsuleCollider2D:
@@ -2374,7 +2433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992774067}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0000011920929, y: 0, z: 0}
+  m_LocalPosition: {x: 0.00000166893, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3951,12 +4010,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9068c04d265d064d8c76eb0d54d4c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strength:
+    baseValue: 0
+    modifiers: 
+  agility:
+    baseValue: 0
+    modifiers: 
+  intelligence:
+    baseValue: 0
+    modifiers: 
+  vitality:
+    baseValue: 0
+    modifiers: 
   damage:
     baseValue: 20
     modifiers: 
-  maxHealth:
-    baseValue: 100
+  critChance:
+    baseValue: 0
     modifiers: 
+  critDamage:
+    baseValue: 0
+    modifiers: 
+  maxHealth:
+    baseValue: 1000
+    modifiers: 
+  armor:
+    baseValue: 0
+    modifiers: 
+  evasion:
+    baseValue: 0
+    modifiers: 
+  magicResistance:
+    baseValue: 0
+    modifiers: 
+  fireDamage:
+    baseValue: 0
+    modifiers: 
+  lightningDamage:
+    baseValue: 0
+    modifiers: 
+  iceDamage:
+    baseValue: 0
+    modifiers: 
+  isIgnited: 0
+  isChill: 0
+  isShocked: 0
   currentHealth: 0
 --- !u!1 &1259639580
 GameObject:
