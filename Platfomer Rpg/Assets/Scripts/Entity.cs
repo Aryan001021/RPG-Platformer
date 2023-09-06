@@ -30,6 +30,7 @@ public class Entity : MonoBehaviour
     public CharacterStats stats { get; private set; }
     public Rigidbody2D rb { get; private set; }
     #endregion
+    public System.Action onFlipped;
     protected virtual void Awake()
     {
 
@@ -46,6 +47,14 @@ public class Entity : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+    public virtual void SlowEntityBy(float _slowPercentage,float _slowDuration)
+    {
+
+    }
+    protected virtual void ReturnToDefaultSpeed()
+    {
+        anim.speed = 1;
     }
     public virtual void DamageEffect()
     {
@@ -96,6 +105,7 @@ public class Entity : MonoBehaviour
         facingDirection = facingDirection * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
+        onFlipped?.Invoke();
     }
     public void FlipController(float _x)
     {

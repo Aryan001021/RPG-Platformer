@@ -10,12 +10,15 @@ public class Player : Entity
     public float counterAttackDuration=.2f;
     public bool isBusy { get; private set; }
     [Header("Move Info")]
-    public int speed = 10;
+    public float moveSpeed = 10;
     public float jumpForce = 5;
     public float swordReturnImpact;
+    float defaultJumpSpeed;
+    float defaultMoveSpeed;
     [Header("DashDir")]
     public float dashSpeed;
     public float dashDuration;
+    float defaultDashSpeed;
     public float dashDir { get;private set; }
     public SkillManager skill {  get; private set; }
     public GameObject sword { get; private set; }
@@ -62,6 +65,9 @@ public class Player : Entity
         base.Start();
         stateMachine.Initialize(idleState);
         skill = SkillManager.instance;
+        defaultJumpSpeed = jumpForce;
+        defaultMoveSpeed = moveSpeed;
+        defaultDashSpeed = dashSpeed;
     }
     protected override void Update()
     {
@@ -72,6 +78,22 @@ public class Player : Entity
         {
             skill.crystalSkill.CanUseSkill();
         }
+    }
+    public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
+    {
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
+        jumpForce=jumpForce * (1 - _slowDuration);
+        dashSpeed=dashSpeed * (1 - _slowDuration);
+        anim.speed= anim.speed *(1- _slowPercentage);
+        Invoke("ReturnToDefaultSpeed", _slowDuration);
+
+    }
+    protected override void ReturnToDefaultSpeed()
+    {
+        base.ReturnToDefaultSpeed();
+        moveSpeed = defaultMoveSpeed;
+        jumpForce = defaultJumpSpeed;
+        dashSpeed = defaultDashSpeed;
     }
     public void AssignNewSword(GameObject _newSword)
     {

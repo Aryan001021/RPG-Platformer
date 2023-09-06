@@ -27,7 +27,7 @@ public class PlayerAirState : PlayerState
         }
         if (xInput != 0)
         {
-            player.SetVelocity(player.speed * .7f * xInput, rb.velocity.y);
+            player.SetVelocity(player.moveSpeed * .7f * xInput, rb.velocity.y);
         }
         if(player.IsGroundDetected())
         {

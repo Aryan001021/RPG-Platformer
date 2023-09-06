@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
+    EntityFX FX;
+
     [Header("Major Stats")]
     public Stats strength;  //1 point  increase damage by 1 and crit power by 1%
     public Stats agility;   // 1 pint increse evasion  by 1% and crit chance by 1%
@@ -24,6 +26,7 @@ public class CharacterStats : MonoBehaviour
     public Stats lightningDamage;
     public Stats iceDamage;
 
+    [SerializeField] float ailmentsDuration = 4;
     public bool isIgnited;//does damage over time
     public bool isChill; // reduce armor by  20%
     public bool isShocked;//reduce accuracy by 20%
@@ -35,10 +38,12 @@ public class CharacterStats : MonoBehaviour
     float igniteDamageTimer;
     int igniteDamage;
 
-    [SerializeField]int currentHealth;
+    public int currentHealth;
+    public System.Action onHealthChanged;
     protected virtual void Start()
     {
-        currentHealth = maxHealth.GetValue();
+        FX = GetComponent<EntityFX>();
+        currentHealth = GetMaxHealth();
         critDamage.SetDefaultValue(150);
     }
     protected virtual void Update()
@@ -54,7 +59,7 @@ public class CharacterStats : MonoBehaviour
         if(igniteDamageTimer < 0 && isIgnited)
         {
             igniteDamageTimer = igniteDamageCoolDown;
-            currentHealth -= igniteDamage;
+            DecreaseHealthBy(igniteDamage);
             if(currentHealth < 0)
             {
                 Die();
@@ -68,6 +73,10 @@ public class CharacterStats : MonoBehaviour
         {
             isShocked = false;
         }
+    }
+    public int GetMaxHealth()
+    {
+        return maxHealth.GetValue()+vitality.GetValue()*5;
     }
     public virtual void DoDamage(CharacterStats _targetStats)
     {
@@ -86,6 +95,7 @@ public class CharacterStats : MonoBehaviour
 
         totalDamage = CheckTargetArmer(totalDamage,_targetStats);
         _targetStats.TakeDamage(totalDamage);
+        DoMagicalDamage(_targetStats);
     }
     public virtual void DoMagicalDamage(CharacterStats _targetStats)
     {
@@ -150,17 +160,22 @@ public class CharacterStats : MonoBehaviour
         if (_ignite)
         {
             isIgnited=_ignite;
-            ignitedTimer = 2f;
+            ignitedTimer = ailmentsDuration;
+            FX.IgniteFXFor(ailmentsDuration);
         }
         if (_chill) 
         {
             isChill=_chill;
-            chillTimer = 2f;
+            chillTimer = ailmentsDuration;
+            float slowPercentage = .2f;
+            GetComponent<Entity>().SlowEntityBy(slowPercentage, ailmentsDuration);
+            FX.ChillFXFor(ailmentsDuration);
         }
         if (_shock)
         {
             isShocked = _shock;
-            shockedTimer = 2f;
+            shockedTimer = ailmentsDuration;
+            FX.ShockFXFor(ailmentsDuration);
         }
     }
     public void SetupIgniteDamage(int _damage)
@@ -170,11 +185,17 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void TakeDamage(int _damage)
     {
-        currentHealth -= _damage;
+        DecreaseHealthBy(_damage);
         if (currentHealth<=0)
         {
             Die();
         }
+       
+    }
+    protected virtual void DecreaseHealthBy(int _damage)
+    {
+        currentHealth -= _damage;
+         onHealthChanged?.Invoke();
     }
     protected virtual void Die()
     {
