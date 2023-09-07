@@ -56,7 +56,7 @@ public class BlackholeSkillController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             ReleaseCloneAttack();
-            PlayerManager.instance.player.MakeTransparent(true);
+            PlayerManager.instance.player.fX.MakeTransparent(true);
         }
         CloneAttackLogic();
         if (canGrow && !canShrink)
@@ -85,7 +85,7 @@ public class BlackholeSkillController : MonoBehaviour
         if(playerCanDisappear)
         {
             playerCanDisappear = false;
-            PlayerManager.instance.player.MakeTransparent(true);
+            PlayerManager.instance.player.fX.MakeTransparent(true);
         }
     }
 

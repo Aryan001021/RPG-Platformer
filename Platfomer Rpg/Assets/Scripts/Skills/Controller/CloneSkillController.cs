@@ -4,6 +4,7 @@ public class CloneSkillController : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     Animator animator;
+    Player player;
     [SerializeField] float colorLosingSpeed;
     [SerializeField] GameObject attackCheck;
     [SerializeField] float attackCheckRadius = .8f;
@@ -29,7 +30,8 @@ public class CloneSkillController : MonoBehaviour
             }
         }
     }
-    public void SetupClone(Transform _transform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate)
+    public void SetupClone(Transform _transform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone,
+        float _chanceToDuplicate,Player _player)
     {
         transform.position = _transform.position + _offset;
         if (_canAttack)
@@ -47,6 +49,7 @@ public class CloneSkillController : MonoBehaviour
         closestEnemy = _closestEnemy;
         chanceToDuplicate = _chanceToDuplicate;
         canDuplicateClone = _canDuplicateClone;
+        player= _player;
         FaceClosestTarget();
     }
     private void AnimationTrigger()
@@ -60,7 +63,7 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().DamageEffect();
+                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
                 if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < chanceToDuplicate)

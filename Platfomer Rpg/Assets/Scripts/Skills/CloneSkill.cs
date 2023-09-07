@@ -26,7 +26,7 @@ public class CloneSkill : Skill
         }
         GameObject newClone=Instantiate(clone);
         newClone.GetComponent<CloneSkillController>().
-            SetupClone(_transform,cloneDuration, canAttack,_offset,FindClosestEnemy(newClone.transform),canDuplicateClone,chanceToDuplicate);
+            SetupClone(_transform,cloneDuration, canAttack,_offset,FindClosestEnemy(newClone.transform),canDuplicateClone,chanceToDuplicate,player);
     }
     public void CreateCloneOnDashStart()
     {

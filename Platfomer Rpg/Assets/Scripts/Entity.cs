@@ -56,9 +56,8 @@ public class Entity : MonoBehaviour
     {
         anim.speed = 1;
     }
-    public virtual void DamageEffect()
+    public virtual void DamageImpact ()
     {
-        Debug.Log(this.gameObject.name);
         fX.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockBack());
     }
@@ -119,17 +118,7 @@ public class Entity : MonoBehaviour
         }
     }
     #endregion
-    public void  MakeTransparent(bool _transparent)
-    {
-        if (_transparent)
-        {
-            spriteRenderer.color = Color.clear;
-        }
-        else
-        {
-            spriteRenderer.color = Color.white;
-        }
-    }
+   
     public virtual void Die()
     {
 

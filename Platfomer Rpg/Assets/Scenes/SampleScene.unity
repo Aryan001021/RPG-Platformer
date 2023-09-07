@@ -2183,7 +2183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0000011920929, y: 0, z: 0}
+  m_LocalPosition: {x: -6.449999, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2805,6 +2805,7 @@ MonoBehaviour:
   isIgnited: 0
   isChill: 0
   isShocked: 0
+  shockStrikePrefab: {fileID: 8234695408388676973, guid: ce10c2bcf29143442ba0979e16aa1000, type: 3}
   currentHealth: 0
 --- !u!70 &975665442
 CapsuleCollider2D:
@@ -2905,7 +2906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992774067}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0000011920929, y: 0, z: 0}
+  m_LocalPosition: {x: -6.449999, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4383,7 +4384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1113252208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6.45, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4527,15 +4528,16 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   lightningDamage:
-    baseValue: 0
+    baseValue: 1
     modifiers: 
   iceDamage:
-    baseValue: 1
+    baseValue: 0
     modifiers: 
   ailmentsDuration: 4
   isIgnited: 0
   isChill: 0
   isShocked: 0
+  shockStrikePrefab: {fileID: 8234695408388676973, guid: ce10c2bcf29143442ba0979e16aa1000, type: 3}
   currentHealth: 0
 --- !u!1 &1193899361
 GameObject:

@@ -57,7 +57,7 @@ public class CrystalSkill : Skill
     {
         currentCrystal = Instantiate(crystalPrefab, player.transform.position, Quaternion.identity);
         CrystalSkillController crystalSkillController = currentCrystal.GetComponent<CrystalSkillController>();
-        crystalSkillController.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestEnemy(currentCrystal.transform));
+        crystalSkillController.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestEnemy(currentCrystal.transform), player);
     }
     public void CurrentCrystalChooseRandomEnemy()
     {
@@ -79,7 +79,7 @@ public class CrystalSkill : Skill
                 GameObject newCrystal = Instantiate(crystalToSpawn, player.transform.position, Quaternion.identity);
                 crystalLeft.Remove(crystalToSpawn);
                 newCrystal.GetComponent<CrystalSkillController>().
-                    SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestEnemy(newCrystal.transform));
+                    SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestEnemy(newCrystal.transform), player);
                 if(crystalLeft.Count <= 0)
                 {
                     coolDown = multiStackCooldown;
