@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+//inherited by every skill
 public class Skill : MonoBehaviour
 {
     [SerializeField] protected float coolDown;
@@ -9,12 +7,12 @@ public class Skill : MonoBehaviour
     protected Player player;
     protected virtual void Start()
     {
-        player = PlayerManager.instance.player; 
+        player = PlayerManager.instance.player;
     }
     protected virtual void Update()
     {
-        coolDownTimer-=Time.deltaTime;
-        
+        coolDownTimer -= Time.deltaTime;
+
     }
     public virtual bool CanUseSkill()
     {
@@ -25,15 +23,15 @@ public class Skill : MonoBehaviour
             return true;
         }
         return false;
-    }
+    }//return bool if player can use skill only happen when cooldowntimer  reach below zero
     public virtual void UseSkill()
     {
 
-    } 
+    }
     protected virtual Transform FindClosestEnemy(Transform _checkTransform)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(_checkTransform.position, 25f);
-        Transform closestEnemy=null;
+        Transform closestEnemy = null;
         float closestDistance = Mathf.Infinity;
         foreach (var hit in colliders)
         {
@@ -48,6 +46,6 @@ public class Skill : MonoBehaviour
             }
         }
         return closestEnemy;
-    }
+    }//find closest enemy for skill
 
 }

@@ -34,7 +34,7 @@ public class CrystalSkillController : MonoBehaviour
         crystalExitTimer -= Time.deltaTime;
         if (crystalExitTimer < 0)
         {
-            FinishCrystal();
+            FinishCrystal();//remove crystal by removing it by exploding it according to its type
         }
         if (canMoveToEnemy)
         {
@@ -48,7 +48,7 @@ public class CrystalSkillController : MonoBehaviour
         if (canGrow)
         {
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3, 3), growSpeed * Time.deltaTime);
-        }
+        }//make it grow bit slowly
     }
     public void ChooseRandomEnemy()
     {
@@ -58,7 +58,7 @@ public class CrystalSkillController : MonoBehaviour
         {
             closestTarget = colliders[Random.Range(0, colliders.Length)].transform;
         }
-    }
+    }//chose the closest target
     void AnimatorExplodeEvent()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, circleCollider.radius);
@@ -69,7 +69,7 @@ public class CrystalSkillController : MonoBehaviour
                 player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());
             }
         }
-    }
+    }//do magical damage when hit an enemy
 
     public void FinishCrystal()
     {

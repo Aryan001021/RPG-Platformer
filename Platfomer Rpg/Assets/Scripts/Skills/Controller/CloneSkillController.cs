@@ -55,7 +55,7 @@ public class CloneSkillController : MonoBehaviour
     private void AnimationTrigger()
     {
         cloneTimer = -.1f;
-    }
+    }//used by clone animator
     public void AttackTrigger()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.transform.position, attackCheckRadius);
@@ -74,7 +74,7 @@ public class CloneSkillController : MonoBehaviour
             }
         }
 
-    }
+    }// clone will attack also use by clone animator
     private void FaceClosestTarget()
     {
 
@@ -86,5 +86,5 @@ public class CloneSkillController : MonoBehaviour
                 transform.Rotate(0, 180, 0);
             }
         }
-    }
+    }//make clone look toward its closest target
 }

@@ -14,7 +14,7 @@ public class SkeletonBattleState : EnemyState
     {
         base.Enter();
         player = PlayerManager.instance.player.gameObject;
-    }
+    }//get player
 
     public override void Exit()
     {
@@ -24,7 +24,7 @@ public class SkeletonBattleState : EnemyState
     public override void Update()
     {
         base.Update();
-        if(enemy.IsPlayerDetected())
+        if (enemy.IsPlayerDetected())
         {
             stateTimer = enemy.battleTime;
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
@@ -34,14 +34,14 @@ public class SkeletonBattleState : EnemyState
                     stateMachine.ChangeState(enemy.attackState);
                 }
             }
-        }
+        }//if player is within attack distance enemy will go to attack state
         else
         {
-            if (stateTimer < 0|| Vector2.Distance(player.transform.position,enemy.transform.position)>15)
+            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 15)
             {
                 stateMachine.ChangeState(enemy.idleState);
             }
-        }
+        }//if player is away and more than 15 units or state timer goes less than 0 then goes to idle state
         if (player.transform.position.x > enemy.transform.position.x)
         {
             moveDir = 1;
@@ -54,14 +54,15 @@ public class SkeletonBattleState : EnemyState
     }
     private bool Canattack()
     {
-        if(Time.time>=enemy.lastTimeAttacked+enemy.attackCooldown)
+        if (Time.time >= enemy.lastTimeAttacked + enemy.attackCooldown)
         {
             enemy.lastTimeAttacked = Time.time;
             return true;
         }
-        else { 
-        return false;
+        else
+        {
+            return false;
         }
-    }
+    }//make enemy attack wait for cooldown
 
 }

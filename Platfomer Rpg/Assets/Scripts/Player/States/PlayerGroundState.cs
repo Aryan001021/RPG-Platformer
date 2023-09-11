@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGroundState : PlayerState
@@ -21,19 +19,19 @@ public class PlayerGroundState : PlayerState
     public override void Update()
     {
         base.Update();
-        if(!player.IsGroundDetected())
+        if (!player.IsGroundDetected())
         {
             stateMachine.ChangeState(player.airState);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            stateMachine.ChangeState(player.blackHoleState); 
+            stateMachine.ChangeState(player.blackHoleState);
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1)&&HasNoSword())
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
         {
             stateMachine.ChangeState(player.aimSwordState);
         }
-        if (Input.GetKeyDown(KeyCode.Space)&&player.IsGroundDetected())
+        if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
         {
             stateMachine.ChangeState(player.jumpState);
         }
@@ -45,7 +43,7 @@ public class PlayerGroundState : PlayerState
         {
             stateMachine.ChangeState(player.counterAttackState);
         }
-    }
+    }//checking input of player if he is on ground and if he  is not then make him go airstate
     private bool HasNoSword()
     {
         if (!player.sword)
@@ -54,5 +52,5 @@ public class PlayerGroundState : PlayerState
         }
         player.sword.GetComponent<SwordSkillController>().ReturnSword();
         return false;
-    }
+    }//make the thrown sword come back
 }

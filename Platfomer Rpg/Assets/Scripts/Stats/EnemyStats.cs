@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EnemyStats : CharacterStats
 {
     Enemy enemy;
@@ -13,7 +9,7 @@ public class EnemyStats : CharacterStats
     public override void TakeDamage(int _damage)
     {
         base.TakeDamage(_damage);
-    }
+    }//this function is called when an opponent hit player it scans it and use this function to do damage to player
 
     protected override void Die()
     {

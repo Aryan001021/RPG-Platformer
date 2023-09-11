@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+//same as player state
 public class EnemyState
 {
     protected EnemyStateMachine stateMachine;
@@ -10,7 +8,7 @@ public class EnemyState
     private string animBoolName;
     protected float stateTimer;
     protected Rigidbody2D rb;
-    public EnemyState(Enemy _enemyBase,EnemyStateMachine _stateMachine,string _animBoolName)
+    public EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName)
     {
         this.enemyBase = _enemyBase;
         this.stateMachine = _stateMachine;
@@ -18,7 +16,7 @@ public class EnemyState
     }
     public virtual void Update()
     {
-        stateTimer-=Time.deltaTime;
+        stateTimer -= Time.deltaTime;
     }
     public virtual void Exit()
     {
@@ -27,7 +25,7 @@ public class EnemyState
     }
     public virtual void Enter()
     {
-        rb=enemyBase.rb;
+        rb = enemyBase.rb;
         triggerCalled = false;
         stateTimer = 0;
         enemyBase.anim.SetBool(animBoolName, true);

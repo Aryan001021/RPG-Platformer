@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+//manage every skill
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;

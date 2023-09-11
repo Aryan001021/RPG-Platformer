@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCatchSwordState : PlayerState
@@ -15,28 +13,28 @@ public class PlayerCatchSwordState : PlayerState
         sword = player.sword.transform;
         if (player.transform.position.x > sword.position.x && player.facingDirection == 1)
         {
-            player.Flip();
+            player.Flip();//if sword on opposite direction then player will turn
         }
         else if (player.transform.position.x < sword.position.x && player.facingDirection == -1)
         {
-            player.Flip();
+            player.Flip();//if sword on opposite direction then player will turn
         }
-        rb.velocity=new Vector2(-player.swordReturnImpact *player.facingDirection,rb.velocity.y);
+        rb.velocity = new Vector2(-player.swordReturnImpact * player.facingDirection, rb.velocity.y);//when player catch the sword he well feel the inertia 
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.StartCoroutine("BusyFor", .1f);
+        player.StartCoroutine("BusyFor", .1f);//player got busy 
     }
 
     public override void Update()
     {
         base.Update();
-        if(triggerCalled)
+        if (triggerCalled)
         {
             stateMachine.ChangeState(player.idleState);
-        }
+        }//make player goes back to idle
 
     }
 }

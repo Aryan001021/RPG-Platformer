@@ -1,6 +1,4 @@
- using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public class SwordSkillController : MonoBehaviour
@@ -9,18 +7,21 @@ public class SwordSkillController : MonoBehaviour
     Rigidbody2D rb;
     CircleCollider2D circleCollider;
     private Player player;
-    private bool canRotate=true;
-    private bool isReturning=false;
+    private bool canRotate = true;
+    private bool isReturning = false;
     float FreezeTimeDuration;
-    float returnSpeed=12;
+    float returnSpeed = 12;
+
     [Header("PierceInfo")]
     [SerializeField] int pierceAmount;
+
     [Header("BounceInfo")]
     float bounceSpeed;
     bool isBouncing;
     int amountOfBounce;
-    List<Transform> enemyTarget=new List<Transform>();
+    List<Transform> enemyTarget = new List<Transform>();
     private int targetIndex;
+
     [Header("SpinInfo")]
     float maxTravelDistance;
     private float spinDuration;
@@ -50,7 +51,7 @@ public class SwordSkillController : MonoBehaviour
     {
         player.stats.DoDamage(enemy.transform.GetComponent<CharacterStats>());
         enemy.StartCoroutine("FreezeTimeFor", FreezeTimeDuration);
-    }
+    }//decrease the health of enemy
     void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -59,18 +60,18 @@ public class SwordSkillController : MonoBehaviour
     }
     public void SetUpSword(Vector2 _dir, float _gravityScale, Player _player, float _freezeTimeDuration, float _returnSpeed)
     {
-        player=_player;
+        player = _player;
         rb.gravityScale = _gravityScale;
         rb.velocity = _dir;
         FreezeTimeDuration = _freezeTimeDuration;
         returnSpeed = _returnSpeed;
-        if (pierceAmount <= 0) 
+        if (pierceAmount <= 0)
         {
             animator.SetBool("Rotation", true);
         }
         spinDirection = Mathf.Clamp(rb.velocity.x, -1, 1);
         Invoke("DestroyMe", 7);
-    }
+    }//constructor
     void DestroyMe()
     {
         Destroy(gameObject);
@@ -92,25 +93,25 @@ public class SwordSkillController : MonoBehaviour
                 }
             }
         }
-    }
+    }//bounce between few enemies
 
     private void StuckInto(Collider2D collision)
     {
-        if (pierceAmount > 0&&collision.GetComponent<Enemy>()!=null)
+        if (pierceAmount > 0 && collision.GetComponent<Enemy>() != null)
         {
             pierceAmount--;
             return;
-        }
+        }//sword is of pierce type
         if (isSpinning)
         {
             StopWhenSpinning();
             return;
-        }
+        }//sword is of spin type
         canRotate = false;
         circleCollider.enabled = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        if (isBouncing && enemyTarget.Count>0)
+        if (isBouncing && enemyTarget.Count > 0)
         {
             return;
         }
@@ -118,7 +119,7 @@ public class SwordSkillController : MonoBehaviour
         transform.parent = collision.transform;
     }
 
-    public void SetUpBounce(bool _isBouncing,int _amountOfBounce,float _bounceSpeed)
+    public void SetUpBounce(bool _isBouncing, int _amountOfBounce, float _bounceSpeed)
     {
         isBouncing = _isBouncing;
         amountOfBounce = _amountOfBounce;
@@ -128,7 +129,7 @@ public class SwordSkillController : MonoBehaviour
     {
         pierceAmount = _pierceAmount;
     }
-    public void SetUpSpin(bool _isSpinning,float _maxTravelDistance,float _spinDuration,float _hitCoolDown)
+    public void SetUpSpin(bool _isSpinning, float _maxTravelDistance, float _spinDuration, float _hitCoolDown)
     {
         isSpinning = _isSpinning;
         maxTravelDistance = _maxTravelDistance;
@@ -140,7 +141,7 @@ public class SwordSkillController : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.parent = null;
         isReturning = true;
-    }
+    }//return sword back to player
     private void Update()
     {
         if (canRotate)
@@ -166,7 +167,7 @@ public class SwordSkillController : MonoBehaviour
             if (Vector2.Distance(player.transform.position, transform.position) > maxTravelDistance && !wasStopped)
             {
                 StopWhenSpinning();
-            }
+            }//if player and sword is far from allowed distance sword stop moving
             if (wasStopped)
             {
                 spinTimer -= Time.deltaTime;
@@ -207,7 +208,7 @@ public class SwordSkillController : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIndex].position, bounceSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
             {
-                
+
                 SwordSkillDamage(enemyTarget[targetIndex].GetComponent<Enemy>());
 
                 targetIndex++;

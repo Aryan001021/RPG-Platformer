@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Entity
 {
-    [SerializeField]protected LayerMask whatIsPlayer;
+    [SerializeField] protected LayerMask whatIsPlayer;
     [Header("stunned Info")]
     public float stunDuration;
     public Vector2 stunDirection;
@@ -18,7 +17,7 @@ public class Enemy : Entity
     [Header("AtackInfo")]
     public float attackDistance;
     public float attackCooldown;
-    [HideInInspector]public float lastTimeAttacked;
+    [HideInInspector] public float lastTimeAttacked;
 
     public EnemyStateMachine stateMachine { get; private set; }
     public string lastAnimBoolName { get; private set; }
@@ -26,7 +25,7 @@ public class Enemy : Entity
     {
         base.Awake();
         defaultMoveSpeed = moveSpeed;
-        stateMachine= new EnemyStateMachine();  
+        stateMachine = new EnemyStateMachine();
     }
     protected override void Update()
     {
@@ -36,13 +35,13 @@ public class Enemy : Entity
     public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
     {
         anim.speed = anim.speed * (1 - _slowPercentage);
-        moveSpeed=moveSpeed*(1-_slowPercentage);
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
         Invoke("ReturnToDefaultSpeed", _slowDuration);
     }
     protected override void ReturnToDefaultSpeed()
     {
         base.ReturnToDefaultSpeed();
-        moveSpeed=defaultMoveSpeed;
+        moveSpeed = defaultMoveSpeed;
     }
     public virtual void AssignLastAnimName(string _name)
     {
@@ -75,7 +74,7 @@ public class Enemy : Entity
     }
     public virtual void CloseCounterAttackWindow()
     {
-        canBeStunned=false;
+        canBeStunned = false;
         counterImage.SetActive(false);
     }
     #endregion 
@@ -93,7 +92,7 @@ public class Enemy : Entity
     {
         base.OnDrawGizmos();
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x+attackDistance*facingDirection,transform.position.y));
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDirection, transform.position.y));
     }
-    public virtual void AnimationFinishedTrigger()=>stateMachine.currentState.AnimationFinishTrigger();
+    public virtual void AnimationFinishedTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 }

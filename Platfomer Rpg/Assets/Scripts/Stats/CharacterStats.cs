@@ -6,39 +6,39 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Major Stats")]
     public Stats strength;  //1 point  increase damage by 1 and crit power by 1%
-    public Stats agility;   // 1 pint increse evasion  by 1% and crit chance by 1%
+    public Stats agility;   // 1 point increse evasion  by 1% and crit chance by 1%
     public Stats intelligence;  //1 point increase magic damage by 1 and magic resistance by 3
     public Stats vitality;// 1 point  increase hp by 3 or 5
 
     [Header("Offensive Stats")]
-    public Stats damage;
-    public Stats critChance;
-    public Stats critDamage;
+    public Stats damage;//the  base damage that hit the opponent
+    public Stats critChance;//the percentage of time crit damage will apply
+    public Stats critDamage;//the crit damage that mutiplied to the damage when crit chance is in favour
 
     [Header("Defensive Stats")]
-    public Stats maxHealth;
-    public Stats armor;
-    public Stats evasion;
-    public Stats magicResistance;
+    public Stats maxHealth;//max Hp
+    public Stats armor;//added to the hp by armor and such
+    public Stats evasion;//chance to evade the attack
+    public Stats magicResistance;//defence against magic
 
     [Header("Magic Stats")]
-    public Stats fireDamage;
-    public Stats lightningDamage;
-    public Stats iceDamage;
+    public Stats fireDamage;//fire attack damage
+    public Stats lightningDamage;//lightning attack damage
+    public Stats iceDamage;//freeze attack damage
 
     [SerializeField] float ailmentsDuration = 4;
     public bool isIgnited;//does damage over time
     public bool isChill; // reduce armor by  20%
     public bool isShocked;//reduce accuracy by 20%
 
-    float ignitedTimer;
-    float chillTimer;
-    float shockedTimer;
-    float igniteDamageCoolDown=.3f;
+    float ignitedTimer;//timer for how long ignite will be active after applied
+    float chillTimer;//timer for how long frost will be active after applied
+    float shockedTimer;//timer for how long shock will be active after applied
+    float igniteDamageCoolDown=.3f;//cooldown timer for ignite
     float igniteDamageTimer;
     int igniteDamage;
     int shockedDamage;
-    [SerializeField] GameObject shockStrikePrefab;
+    [SerializeField] GameObject shockStrikePrefab;//the lighning prefab
     protected bool isDead;
 
     public int currentHealth;
@@ -58,7 +58,7 @@ public class CharacterStats : MonoBehaviour
         if (ignitedTimer < 0)
         {
             isIgnited = false;
-        }
+        }//when ignite timer <0 burn/ignite cancel on self
         ApplyIgniteDamage();
         if (chillTimer < 0)
         {
@@ -81,12 +81,12 @@ public class CharacterStats : MonoBehaviour
                 Die();
             }
         }
-    }
+    }//apply ignite damage if entity is burned i.e. ignite is on and the ignitedamagetimer go below 0.here we reset timer 
 
     public int GetMaxHealth()
     {
         return maxHealth.GetValue()+vitality.GetValue()*5;
-    }
+    }//return max health on this enitity by getting maxhealth stat value + vitality*5.
     public virtual void DoDamage(CharacterStats _targetStats)
     {
         if (TargetCanAvoidAttack(_targetStats))
@@ -104,7 +104,7 @@ public class CharacterStats : MonoBehaviour
 
         totalDamage = CheckTargetArmer(totalDamage,_targetStats);
         _targetStats.TakeDamage(totalDamage);
-    }
+    }//used when this entity attact it find this script on enemy entity and decrease the health with by finding its take damage function
     #region Magical Damage
     public virtual void DoMagicalDamage(CharacterStats _targetStats)
     {
@@ -120,14 +120,16 @@ public class CharacterStats : MonoBehaviour
             return;
         }
         AttemptToApplyAilments(_targetStats, _fireDamage, _iceDamage, _lightningDamage);
-    }
+    }//used  when this entity attact it find this script on enemy entity and decrease the health with by finding its take damage function and apply the
+     //magic -ve stats like burn ,freeze or shock to other entity
 
     private void AttemptToApplyAilments(CharacterStats _targetStats, int _fireDamage, int _iceDamage, int _lightningDamage)
-    {
+    {//
         bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _lightningDamage;
         bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightningDamage;
         bool canApplyShock = _lightningDamage > _iceDamage && _lightningDamage > _fireDamage;
-
+     //here we check if we can apply a magic effect with easy logic
+     //
         while (!canApplyIgnite && !canApplyChill && !canApplyShock)
         {
             if (Random.value < .5 && _fireDamage > 0)
@@ -149,17 +151,18 @@ public class CharacterStats : MonoBehaviour
                 return;
             }
         }
-
+    //if above logic fail then we apply the complex logic to apply magic effect it's an exception handling
         if (canApplyIgnite)
         {
             _targetStats.SetupIgniteDamage(Mathf.RoundToInt(_fireDamage * .2f));
-        }
+        }//the ignite decrease health perodically so this function
         if (canApplyShock)
         {
             _targetStats.SetupShockDamage(Mathf.RoundToInt(_lightningDamage * .2f));
-        }
+        }//the shock decrease health perodically so this function
+        //also freeze do not effect perodically
         _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
-    }
+    }//where we check which magic effect we can apply
     public void ApplyAilments(bool _ignite,bool _chill,bool _shock)
     {
         bool canApplyIgnite = !isIgnited && !isChill && !isShocked;
@@ -170,7 +173,7 @@ public class CharacterStats : MonoBehaviour
             isIgnited=_ignite;
             ignitedTimer = ailmentsDuration;
             FX.IgniteFXFor(ailmentsDuration);
-        }
+        }//if entity is not ignited already then we apply it otherwise not
         if (_chill&&canApplyChill) 
         {
             isChill=_chill;
@@ -178,7 +181,7 @@ public class CharacterStats : MonoBehaviour
             float slowPercentage = .2f;
             GetComponent<Entity>().SlowEntityBy(slowPercentage, ailmentsDuration);
             FX.ChillFXFor(ailmentsDuration);
-        }
+        }//if entity is not freezed already then we apply it otherwise not
         if (_shock&&canApplyShock)
         {
             if(!isShocked)
@@ -193,8 +196,8 @@ public class CharacterStats : MonoBehaviour
                 }
                 HitNearestTargetWithShockStrike();
             }
-        }
-    }
+        }//if entity is not shocked already then we apply it otherwise not
+    }//here we apply effect
 
     public void ApplyShock(bool _shock)
     {
@@ -205,7 +208,7 @@ public class CharacterStats : MonoBehaviour
         isShocked = _shock;
         shockedTimer = ailmentsDuration;
         FX.ShockFXFor(ailmentsDuration);
-    }
+    }//shock logic same as fire and freeze in above function
 
     private void HitNearestTargetWithShockStrike()
     {
@@ -234,7 +237,7 @@ public class CharacterStats : MonoBehaviour
             newShockSrike.GetComponent<ThunderStrikeController>().Setup(shockedDamage, closestEnemy.GetComponent<CharacterStats>());
             Debug.Log("in shock strike");
         }
-    }
+    }//if we hit an enemy that is already shocked then we can throw lightning on nearby enemy or same enemy
 
     public void SetupIgniteDamage(int _damage)
     {
@@ -255,12 +258,12 @@ public class CharacterStats : MonoBehaviour
             Die();
         }
        
-    }
+    }//when oppenent entity hit this it try to find this characterstats scipt and call this function to decrease this enitity health
     protected virtual void DecreaseHealthBy(int _damage)
     {
         currentHealth -= _damage;
          onHealthChanged?.Invoke();
-    }
+    }//here we decrease health and update health ui by firing event
     protected virtual void Die()
     {
         isDead = true;
@@ -275,7 +278,6 @@ public class CharacterStats : MonoBehaviour
         }
         if (Random.Range(0, 100) < totalEvasion)
         {
-            Debug.Log("attack missed");
             return true;
         }
         return false;
@@ -315,5 +317,5 @@ public class CharacterStats : MonoBehaviour
         float critDamageVar = _damage * totalCritDamage;
         return (int) critDamageVar;
     }
-    #endregion
+    #endregion//in this stats is calculted
 }

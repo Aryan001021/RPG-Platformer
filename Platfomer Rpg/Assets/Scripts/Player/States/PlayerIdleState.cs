@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
@@ -25,12 +23,12 @@ public class PlayerIdleState : PlayerGroundState
         if (xInput == player.facingDirection && player.IsWallDetected())
         {
             return;
-        }
-        if (xInput!=0&&player.isBusy==false)
+        }//this make player to not change to other animation if he is trying to move towards a wall 
+        if (xInput != 0 && player.isBusy == false)
         {
             stateMachine.ChangeState(player.moveState);
-        }
+        }//this make him go to moving state
     }
 }
-    
+
 

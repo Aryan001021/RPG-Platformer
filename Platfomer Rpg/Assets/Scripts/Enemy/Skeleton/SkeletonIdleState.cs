@@ -25,6 +25,6 @@ public class SkeletonIdleState : SkeletonGroundedState
         if (stateTimer < 0f)
         {
             stateMachine.ChangeState(enemy.moveState);
-        }
+        }//when idletime goes to zero it goes to move stage
     }
 }

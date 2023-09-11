@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public class SkeletonAttackState : EnemyState
@@ -26,10 +22,10 @@ public class SkeletonAttackState : EnemyState
     public override void Update()
     {
         base.Update();
-        enemy.SetZeroVelocity();
-        if(triggerCalled)
+        enemy.SetZeroVelocity();//make enemy stop
+        if (triggerCalled)
         {
             stateMachine.ChangeState(enemy.battleState);
-        }
+        }//when attack it performed goes to battle state
     }
 }

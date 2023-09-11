@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
@@ -12,7 +10,7 @@ public class PlayerCounterAttackState : PlayerState
     {
         base.Enter();
         canCreateClone = true;
-        stateTimer = player.counterAttackDuration;
+        stateTimer = player.counterAttackDuration;//set to time in which player can counter
         player.anim.SetBool("SuccessfulCounterAttack", false);
 
     }
@@ -25,7 +23,7 @@ public class PlayerCounterAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-        player.SetZeroVelocity();
+        player.SetZeroVelocity();//make player stop moving
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
         foreach (var hit in colliders)
         {
@@ -37,15 +35,15 @@ public class PlayerCounterAttackState : PlayerState
                     player.anim.SetBool("SuccessfulCounterAttack", true);
                     if (canCreateClone)
                     {
-                        canCreateClone=false;
-                        player.skill.cloneSkill.CreateCloneOnCounterAttack(hit.transform);
+                        canCreateClone = false;
+                        player.skill.cloneSkill.CreateCloneOnCounterAttack(hit.transform);//create clone
                     }
                 }
             }
-        }
+        }//enemy check and if enemy attack is match with counter then bool true
         if (stateTimer < 0 || triggerCalled)
         {
-            player.anim.SetBool("SuccessfulCounterAttack", false);
+            player.anim.SetBool("SuccessfulCounterAttack", false);//if state timer goes below zero then counter fail
             stateMachine.ChangeState(player.idleState);
         }
     }

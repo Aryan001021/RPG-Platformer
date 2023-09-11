@@ -26,7 +26,7 @@ public class EnemySkeleton : Enemy
     {
         base.Start();
         stateMachine.Initialize(idleState);
-    }
+    }//start on idle
 
     protected override void Update()
     {

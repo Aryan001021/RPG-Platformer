@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonDeadState : EnemyState
 {
     private Enemy enemy;
-    public SkeletonDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -20,7 +18,7 @@ public class SkeletonDeadState : EnemyState
         base.Enter();
         enemy.anim.SetBool(enemy.lastAnimBoolName, true);
         enemy.anim.speed = 0;
-        enemy.capsuleCollider.enabled = false;
+        enemy.capsuleCollider.enabled = false;//stop enemy collision
         stateTimer = .1f;
     }
 
@@ -32,9 +30,9 @@ public class SkeletonDeadState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (stateTimer>0)
+        if (stateTimer > 0)
         {
             rb.velocity = new Vector2(0, 10);
-        }
+        }//give it bounce
     }
 }

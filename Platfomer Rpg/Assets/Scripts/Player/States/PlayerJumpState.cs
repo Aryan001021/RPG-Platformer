@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerJumpState : PlayerState
@@ -11,7 +9,7 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
+        rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);//give player y velocity
     }
 
     public override void Exit()
@@ -21,7 +19,7 @@ public class PlayerJumpState : PlayerState
 
     public override void Update()
     {
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0)//if player got y velocity then change player state to air state
         {
             stateMachine.ChangeState(player.airState);
         }

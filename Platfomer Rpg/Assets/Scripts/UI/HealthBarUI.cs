@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,18 +9,18 @@ public class HealthBarUI : MonoBehaviour
     Slider slider;
     void Start()
     {
-        entity=GetComponentInParent<Entity>();
-        myStats=GetComponentInParent<CharacterStats>();
-        myTransform=GetComponent<RectTransform>();
-        slider=GetComponentInChildren<Slider>();
-        entity.onFlipped += FlipUI;
-        myStats.onHealthChanged+=UpdateHealthUI;
-        UpdateHealthUI();
+        entity = GetComponentInParent<Entity>();
+        myStats = GetComponentInParent<CharacterStats>();
+        myTransform = GetComponent<RectTransform>();
+        slider = GetComponentInChildren<Slider>();
+        entity.onFlipped += FlipUI;//subscribe event of flip on entity
+        myStats.onHealthChanged += UpdateHealthUI;//subscribe event of healthchange on characterstats
+        UpdateHealthUI();//initialize itself
     }
     private void FlipUI()
     {
         myTransform.Rotate(0, 180, 0);
-    }
+    }//flip whenever entity flip
     void UpdateHealthUI()
     {
         slider.maxValue = myStats.GetMaxHealth();
@@ -33,5 +30,5 @@ public class HealthBarUI : MonoBehaviour
     {
         entity.onFlipped -= FlipUI;
         myStats.onHealthChanged -= UpdateHealthUI;
-    }
+    }//unsubscribe to events
 }

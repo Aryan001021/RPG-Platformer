@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//this script make bg  move with player as player is followed  by main camera
 public class Parallax : MonoBehaviour
 {
     GameObject cam;

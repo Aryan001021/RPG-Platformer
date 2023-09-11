@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonGroundedState : EnemyState
@@ -25,9 +23,9 @@ public class SkeletonGroundedState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (enemy.IsPlayerDetected() || Vector2.Distance(player.position,enemy.transform.position)<2)
+        if (enemy.IsPlayerDetected() || Vector2.Distance(player.position, enemy.transform.position) < 2)
         {
             stateMachine.ChangeState(enemy.battleState);
-        }
+        }//if player is near skeleton or distance between then is less than 2 then it goes to battle state
     }
 }

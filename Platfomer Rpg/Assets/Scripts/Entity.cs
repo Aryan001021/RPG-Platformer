@@ -1,36 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
-
+//this script is used by inhertance only it do not attack to a gameobject
 public class Entity : MonoBehaviour
 {
-    [Header("Collision Check")]
-    public Transform attackCheck;
-    public float attackCheckRadius;
+    [Header("Collision Check")]//object will check to which other object current gameobject are colliding with include ground and enemy check
+                               //using physics2D.raycast or physics2D.circlecastall
+    public Transform attackCheck;//it's a transform used as centre of a circle if enemy inside it ,it get damage on attack
+    public float attackCheckRadius;//raduis of attack circle
     public SpriteRenderer spriteRenderer;
-    [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
-    [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
+    [SerializeField] protected Transform groundCheck;//a gameobject used as a point through which we start the ground check raycast
+    [SerializeField] protected float groundCheckDistance;//the distance of groundcheck raycast
+    [SerializeField] protected Transform wallCheck;//a gameobject used as a point through which we start the wall check raycast
+    [SerializeField] protected float wallCheckDistance;//distance of wallcheck raycast
     [SerializeField] protected LayerMask whatIsGround;
-
-    [Header("KnockBack Info")]
-    [SerializeField] protected Vector2 knockBackDir;
-    [SerializeField] protected float knockBackDuration;
+    
+    [Header("KnockBack Info")]//if current gameobject is hitted then it get pushed back
+    [SerializeField] protected Vector2 knockBackDir;//the direction of the puchback force
+    [SerializeField] protected float knockBackDuration;//how long it will apply
     protected bool isKnocked;
 
     public int facingDirection { get; private set; } = 1;
-    public CapsuleCollider2D capsuleCollider { get; private set; }
+    public CapsuleCollider2D capsuleCollider { get; private set; }//object bound
     protected bool facingRight = true;
     #region Component
 
-    public EntityFX fX { get; private set; }
+    public EntityFX fX { get; private set; }//it contain effects that can be apply on an entity
     public Animator anim { get; private set; }
-    public CharacterStats stats { get; private set; }
+    public CharacterStats stats { get; private set; }//it contain stats like health intelligence attack and stuff.
     public Rigidbody2D rb { get; private set; }
     #endregion
-    public System.Action onFlipped;
+    public System.Action onFlipped;//event
     protected virtual void Awake()
     {
 
@@ -38,29 +37,29 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        spriteRenderer= GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         fX = GetComponent<EntityFX>();
-        stats = GetComponent<CharacterStats>(); 
+        stats = GetComponent<CharacterStats>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
     protected virtual void Update()
     {
 
     }
-    public virtual void SlowEntityBy(float _slowPercentage,float _slowDuration)
+    public virtual void SlowEntityBy(float _slowPercentage, float _slowDuration)
     {
 
-    }
+    }//it slows the entity by a number when freeze attack is applied on it, it default implementation rest is in its child script.
     protected virtual void ReturnToDefaultSpeed()
     {
         anim.speed = 1;
-    }
-    public virtual void DamageImpact ()
+    }//when freeze is lifted this is called to make player fast again , it default implementation rest is in its child script.
+    public virtual void DamageImpact()
     {
         fX.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockBack());
-    }
+    }//this make object glow when it hit and knockback the object
     protected virtual IEnumerator HitKnockBack()
     {
         isKnocked = true;
@@ -69,9 +68,9 @@ public class Entity : MonoBehaviour
         isKnocked = false;
     }
     #region Velocity
-    public void SetZeroVelocity() 
+    public void SetZeroVelocity()
     {
-        if(isKnocked)
+        if (isKnocked)
         {
             return;
         }
@@ -79,7 +78,7 @@ public class Entity : MonoBehaviour
     }
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
-        if(isKnocked)
+        if (isKnocked)
         {
             return;
         }
@@ -95,7 +94,7 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
-        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);  
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
     #region flip
@@ -116,9 +115,9 @@ public class Entity : MonoBehaviour
         {
             Flip();
         }
-    }
+    }//used the above flip function according to input and used by SetVelocity()
     #endregion
-   
+
     public virtual void Die()
     {
 
