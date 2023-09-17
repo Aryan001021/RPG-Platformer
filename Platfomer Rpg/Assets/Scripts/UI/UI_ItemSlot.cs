@@ -1,19 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_ItemSlot : MonoBehaviour
+public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler
 {
     [SerializeField]Image image;
     [SerializeField]TextMeshProUGUI itemText;
-    InventoryItem item;
+    public InventoryItem item;
+
+    public void CleanupSlots()
+    {
+        item = null;
+        image.color = Color.clear;
+        image.sprite = null;  
+        itemText.text = "";
+    }//make slot empty
+
+    public virtual void OnPointerDown(PointerEventData eventData)
+    {
+        if (item == null)
+        {
+            return;
+        }
+        if (item.data.itemType == ItemType.Equipment)
+        {
+            Inventory.instance.EquipItem(item.data);
+        }
+    }//when player click on item
 
     public void UpdateSlot(InventoryItem _item)
     {
         item= _item;
-        image.color=Color.white;
+        image.color = Color.white;
         if (item != null)
         {
             image.sprite = item.data.icon;
@@ -26,11 +46,8 @@ public class UI_ItemSlot : MonoBehaviour
                 itemText.text = "";
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (item == null)
+        {
+        }
     }
 }

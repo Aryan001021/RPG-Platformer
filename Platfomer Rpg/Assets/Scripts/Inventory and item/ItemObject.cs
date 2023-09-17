@@ -14,7 +14,7 @@ public class ItemObject : MonoBehaviour
         if (collision.GetComponent<Player>()!=null)
         {
             Inventory.instance.AddItem(itemData);
-            Debug.Log("picked up item "+itemData.itemName);
+        //    Debug.Log("picked up item "+itemData.itemName);
             Destroy(gameObject);
         }//when we collide with it , it will destroy and that item is added in inventory
     }

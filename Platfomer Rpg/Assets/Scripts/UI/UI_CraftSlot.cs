@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class UI_CraftSlot : UI_ItemSlot
+{
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        if (item == null)
+        {
+            return;
+        }
+        ItemData_Equipment craftData= item.data as ItemData_Equipment;
+        if(Inventory.instance.CanCraft(craftData, craftData.craftingMaterials))
+        {
+            
+        }
+    }
+
+    private void OnEnable()
+    {
+        UpdateSlot(item);
+
+    }
+}
