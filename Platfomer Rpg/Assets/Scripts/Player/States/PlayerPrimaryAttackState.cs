@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerPrimaryAttackState : PlayerState
 {
-    protected int comboCounter;//the animation index we are on
+    public int comboCounter { get; private set; }//the animation index we are on
     private float lastTimeAttack;
     private float comboWindow = 2f;//if player dont press in 2 sec then the next attack will be 1st animation
     public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _playerStateMachine, string _animBoolName) : base(_player, _playerStateMachine, _animBoolName)

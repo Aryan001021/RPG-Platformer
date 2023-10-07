@@ -2,20 +2,37 @@ using UnityEngine;
 //the collectable item script
 public class ItemObject : MonoBehaviour
 {
+    [SerializeField] Rigidbody2D rb;
     [SerializeField] ItemData itemData;//the scriptable object it contain
-    private void OnValidate()
+    [SerializeField] Vector2 velocity; 
+
+    private void SetupVisuals()
     {
-        GetComponent<SpriteRenderer>().sprite = itemData.icon;
-        gameObject.name = $"Item Object -{ itemData.name}";
-    }//work when script load // it give the item sprite same as in itemdata and make gameobject name same as in itemdata.
-   
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.GetComponent<Player>()!=null)
+        if (itemData == null)
         {
-            Inventory.instance.AddItem(itemData);
-        //    Debug.Log("picked up item "+itemData.itemName);
-            Destroy(gameObject);
-        }//when we collide with it , it will destroy and that item is added in inventory
+            return;
+        }
+        GetComponent<SpriteRenderer>().sprite = itemData.icon;
+        gameObject.name = $"Item Object -{itemData.name}";
+    }//work when script load // it give the item sprite same as in itemdata and make gameobject name same as in itemdata.   
+
+    public void SetupItem(ItemData _itemData,Vector2 _velocity)
+    {
+        itemData = _itemData;
+        rb.velocity = _velocity;
+        SetupVisuals();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            rb.velocity = velocity;
+        }
+    }
+
+    public void PickupItem()
+    {
+        Inventory.instance.AddItem(itemData);
+        Destroy(gameObject);
     }
 }

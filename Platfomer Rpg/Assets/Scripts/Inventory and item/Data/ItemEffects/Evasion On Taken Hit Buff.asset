@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29be54759dcc7264f98c883a52f3aabd, type: 3}
-  m_Name: Animal Skin
+  m_Script: {fileID: 11500000, guid: b8b0102e225032c4bb3057bb90651c5a, type: 3}
+  m_Name: Evasion On Taken Hit Buff
   m_EditorClassIdentifier: 
-  itemName: Animal Skin
-  icon: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  buffType: 9
+  buffAmount: 15
+  buffDuration: 1.5

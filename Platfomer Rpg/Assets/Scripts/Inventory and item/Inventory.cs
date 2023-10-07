@@ -5,6 +5,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;//make it accessable from everywhere
+
+    public List<ItemData> startingEquipment;
+
     [Header("equipment Items that is currently equiped")]//for currently equip equipment
     public List<InventoryItem> equipment = new List<InventoryItem>();
     public Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
@@ -24,6 +27,11 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] Transform equipmentSlotParent;//the equiped equipment slots
     UI_EquipmentSlot[] equipmentSlots;
+    [Header("Item Cooldown")]
+    float lastTimeUseFlask;
+    float flaskCooldown;
+    float lastTimeUsedArmor;
+    float armorCooldown;
     private void Start()
     {
         if (instance == null)
@@ -34,10 +42,20 @@ public class Inventory : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        inventoryItemSlots=inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
-        stashItemSlots= stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        inventoryItemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        stashItemSlots = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentSlots = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        AddStartingItem();
     }
+
+    private void AddStartingItem()
+    {
+        for (int i = 0; i < startingEquipment.Count; i++)
+        {
+            AddItem(startingEquipment[i]);
+        }
+    }
+
     private void UpdateSlotUI()
     {
         for(int i=0; i < equipmentSlots.Length; i++)
@@ -59,7 +77,7 @@ public class Inventory : MonoBehaviour
         {
             stashItemSlots[i].CleanupSlots();
         }//empty current item have slot
-
+        
         for (int i = 0; i < inventory.Count; i++)
         {
             inventoryItemSlots[i].UpdateSlot(inventory[i]);
@@ -210,6 +228,53 @@ public class Inventory : MonoBehaviour
         AddItem(_item);
         Debug.Log("item added : " + _item.name);
         return true;
+    }
+    public ItemData_Equipment GetEquipment(EquipmentType _type)
+    {
+        ItemData_Equipment equipedItem= null;
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == _type)
+            {
+                equipedItem = item.Key;
+            }
+        }
+        return equipedItem;
+    }
+    public List<InventoryItem> GetEquipmentList() => equipment;
+    public void UseFlask()
+    {
+        ItemData_Equipment currentFlask=GetEquipment(EquipmentType.Flask);
+        if (currentFlask==null)
+        {
+            return;
+        }
+        bool canUseFlask = Time.time > lastTimeUseFlask + flaskCooldown;
+        if (canUseFlask)
+        {
+            flaskCooldown = currentFlask.itemCooldown;
+            currentFlask.Effect(null);
+            lastTimeUseFlask = Time.time;
+        }
+        else
+        {
+            Debug.Log("flask on cooldown");
+        }
+    }
+    public bool UseArmor()
+    {
+        ItemData_Equipment currentArmor=GetEquipment(EquipmentType.Armor);
+        if (currentArmor == null)
+        {
+            return false;
+        }
+        if(Time.time>lastTimeUsedArmor+armorCooldown)
+        {
+            armorCooldown = currentArmor.itemCooldown;
+            lastTimeUsedArmor = Time.time;
+            return true;
+        }
+        return false;
     }
      
 }

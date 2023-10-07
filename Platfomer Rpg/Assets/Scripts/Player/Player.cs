@@ -76,6 +76,11 @@ public class Player : Entity
         {
             skill.crystalSkill.CanUseSkill();
         }
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("use flask");
+            Inventory.instance.UseFlask();  
+        }
     }
     public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
     {

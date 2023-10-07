@@ -71,6 +71,11 @@ public class CrystalSkillController : MonoBehaviour
             if (hit.GetComponent<Enemy>() != null)
             {
                 player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());
+                ItemData_Equipment equipedAmlet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+                if(equipedAmlet != null)
+                {
+                    equipedAmlet.Effect(hit.transform);
+                }
             }
         }
     }//do magical damage when hit an enemy

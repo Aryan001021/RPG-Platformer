@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
@@ -39,7 +40,7 @@ public class CharacterStats : MonoBehaviour
     int igniteDamage;
     int shockedDamage;
     [SerializeField] GameObject shockStrikePrefab;//the lighning prefab
-    protected bool isDead;
+    public bool isDead { get; private set; }
 
     public int currentHealth;
     public System.Action onHealthChanged;
@@ -69,7 +70,16 @@ public class CharacterStats : MonoBehaviour
             isShocked = false;
         }
     }
-
+    public virtual void IncreaseStatsBy(int _modifier,float _duration,Stats _statToModify)
+    {
+        StartCoroutine(StatModCorountine(_modifier,_duration,_statToModify));
+    }
+    IEnumerator StatModCorountine(int _modifier, float _duration, Stats _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+        yield return new WaitForSeconds(_duration);
+        _statToModify.RemoveModifier(_modifier);    
+    }
     private void ApplyIgniteDamage()
     {
         if (igniteDamageTimer < 0 && isIgnited)
@@ -87,6 +97,18 @@ public class CharacterStats : MonoBehaviour
     {
         return maxHealth.GetValue()+vitality.GetValue()*5;
     }//return max health on this enitity by getting maxhealth stat value + vitality*5.
+    public virtual void IncreaseHealthBy(int _amount)
+    {
+        currentHealth += _amount;
+        if (currentHealth > maxHealth.GetValue())
+        {
+            currentHealth = maxHealth.GetValue();
+        }
+        if (onHealthChanged != null)
+        {
+            onHealthChanged();
+        }
+    }
     public virtual void DoDamage(CharacterStats _targetStats)
     {
         if (TargetCanAvoidAttack(_targetStats))
@@ -104,6 +126,8 @@ public class CharacterStats : MonoBehaviour
 
         totalDamage = CheckTargetArmer(totalDamage,_targetStats);
         _targetStats.TakeDamage(totalDamage);
+        //DoMagicalDamage(_targetStats);
+
     }//used when this entity attact it find this script on enemy entity and decrease the health with by finding its take damage function
     #region Magical Damage
     public virtual void DoMagicalDamage(CharacterStats _targetStats)

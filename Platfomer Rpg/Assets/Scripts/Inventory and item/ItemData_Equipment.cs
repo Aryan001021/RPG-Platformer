@@ -12,6 +12,8 @@ public enum EquipmentType
 public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;//what wearable is it
+    public float itemCooldown;
+    public ItemEffect[] itemEffects;
     [Header("Major Stats")]
     public int strength;  //1 point  increase damage by 1 and crit power by 1%
     public int agility;   // 1 point increse evasion  by 1% and crit chance by 1%
@@ -37,6 +39,13 @@ public class ItemData_Equipment : ItemData
     [Header("Craft Requirement")]
     public List<InventoryItem> craftingMaterials;
     
+    public void Effect(Transform _enemyPosition)
+    {
+        foreach (var item in itemEffects)
+        {
+            item.ExecuteEffect(_enemyPosition);
+        }
+    }
     public void AddModifier()
     {
         PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();

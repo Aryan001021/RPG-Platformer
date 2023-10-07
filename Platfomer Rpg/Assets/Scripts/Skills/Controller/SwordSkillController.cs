@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class SwordSkillController : MonoBehaviour
@@ -50,7 +51,13 @@ public class SwordSkillController : MonoBehaviour
     private void SwordSkillDamage(Enemy enemy)
     {
         player.stats.DoDamage(enemy.transform.GetComponent<CharacterStats>());
-        enemy.StartCoroutine("FreezeTimeFor", FreezeTimeDuration);
+        ItemData_Equipment equipedAmlet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+        if (equipedAmlet != null)
+        {
+            Debug.Log("In sword Skill amulet part");
+            equipedAmlet.Effect(enemy.transform);
+        }
+        enemy.FreezeTimeFor(FreezeTimeDuration);
     }//decrease the health of enemy
     void Awake()
     {
